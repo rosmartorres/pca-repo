@@ -17,11 +17,11 @@ def countTranscribeJobsInState(status, client, filesLimit):
     then this will need multiple queries until we build up the total. If we reach or overshoot
     a specific limit (effectively the queue limit) then stop counting
     """
-    response = client.list_transcription_jobs(Status=status)
-    found = len(response["TranscriptionJobSummaries"])
+    response = client.list_call_analytics_jobs(Status=status)
+    found = len(response["CallAnalyticsJobSummaries"])
     while ("NextToken" in response) and (found <= filesLimit):
-        response = client.list_transcription_jobs(Status="IN_PROGRESS", NextToken=response["NextToken"])
-        found += len(response["TranscriptionJobSummaries"])
+        response = client.list_call_analytics_jobs(Status=status, NextToken=response["NextToken"])
+        found += len(response["CallAnalyticsJobSummaries"])
 
     return found
 
